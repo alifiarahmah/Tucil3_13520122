@@ -4,13 +4,13 @@ import java.util.*;
 
 /* Class FifteenPuzzle */
 
-public class FifteenPuzzle {
+public class PuzzleBoard {
     // Deklarasi atribut
     private String[][] board;
     private int emptyRowLoc, emptyColLoc;
 
     // Konstruktor kosong (assign nomor secara random)
-    public FifteenPuzzle() {
+    public PuzzleBoard() {
         // Inisialisasi atribut
         board = new String[4][4];
         emptyRowLoc = emptyColLoc = 3;
@@ -29,7 +29,7 @@ public class FifteenPuzzle {
         }
     }
     // Konstructor dari File
-    public FifteenPuzzle(String filename) {
+    public PuzzleBoard(String filename) {
         this.board = new String[4][4];
         String filepath = "test/" + filename;
         // Membaca file
@@ -68,7 +68,7 @@ public class FifteenPuzzle {
         }
         return Integer.parseInt(this.board[row][col]);
     }
-    public int[] getValueIdx(String value){
+    public int[] getValueIdx(int value){
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 if (board[i][j].equals(value)) {
@@ -163,15 +163,23 @@ public class FifteenPuzzle {
     public boolean isSolvable() {
         // Menentukan x
         // x = 1 jika sel kosong berada pada posisi row genap kolom ganjil / row ganjil kolom genap
-        int x;
-        if (((this.getEmptyRowIdx() % 2 == 0) && (this.getEmptyColIdx() % 2 == 1))
-            || ((this.getEmptyRowIdx() % 2 == 1) && (this.getEmptyColIdx() % 2 == 0))
-        ) {
-            x = 1;
-        } else {
-            x = 0;
-        }
 
+        int x = x();
+        int kurangCount = SigmaKurang();
+
+        // Bisa diselesaikan kalau hasilnya genap
+        return (kurangCount + x) % 2 == 0;
+    }
+    public int x() {
+        if (((this.getEmptyRowIdx() % 2 == 0) && (this.getEmptyColIdx() % 2 == 1))
+                || ((this.getEmptyRowIdx() % 2 == 1) && (this.getEmptyColIdx() % 2 == 0))
+        ) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    public int SigmaKurang() {
         int kurangCount = 0;
         // Iterasi tiap kotak, hitung banyak kotak-kotak
         // setelahnya yang nilainya lebih kecil dari kotak tersebut
@@ -180,9 +188,7 @@ public class FifteenPuzzle {
                 kurangCount += Kurang(it, jt);
             }
         }
-
-        // Bisa diselesaikan kalau hasilnya genap
-        return (kurangCount + x) % 2 == 0;
+        return kurangCount;
     }
     public int Kurang(int row, int col){
         // Fungsi antara
@@ -210,7 +216,32 @@ public class FifteenPuzzle {
         return counter;
     }
 
+    // Fungsi mencari jumalh kotak yang tidak sesuai tempatnya
+    public int countNotInPlace() {
+        int counter = 0;
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if (this.getValue(i, j) != 4 * i + j + 1){
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    // Method untuk mengecek apakah seluruh kotak dalam board sudah sesuai
     public boolean isSolved() {
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if (this.getValue(i, j) != 4 * i + j + 1){
+                    return false;
+                }
+            }
+        }
         return true;
+    }
+
+    public void solve() {
+        Solver.solve(this);
     }
 }
