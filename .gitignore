@@ -2,3 +2,5 @@
 /*.iml
 out/*
 src/*.class
+doc/*.doc
+doc/*.docx
