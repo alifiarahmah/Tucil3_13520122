@@ -33,14 +33,14 @@ public class Main {
         }
         System.out.println("x = " + board.x());
         // Cetak total isSolvable
-        System.out.printf("ΣKurang + x = %d\n", board.SigmaKurang() + board.x());
+        System.out.printf("ΣKurang + x = %d", board.SigmaKurang() + board.x());
 
         System.out.println();
 
         // Solve puzzle
         if (board.isSolvable()) {
             long startTime = System.currentTimeMillis();
-            System.out.println("Puzzle Solvable.");
+            System.out.println("Puzzle Solvable.\n");
             board.solve();
             long endTime = System.currentTimeMillis();
             long duration = endTime - startTime;
