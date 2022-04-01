@@ -13,6 +13,11 @@ class NodeComparator implements Comparator<Node> {
 public class Solver {
 
     public static void solve(PuzzleBoard initialBoard) {
+        ArrayList<Node> solution = getSolution(initialBoard);
+        printSolution(solution);
+    }
+
+    public static ArrayList<Node> getSolution(PuzzleBoard initialBoard) {
         PriorityQueue<Node> aliveNode = new PriorityQueue<>(new NodeComparator());
         Node currentNode;
 
@@ -54,6 +59,11 @@ public class Solver {
             currentNode = currentNode.getParent();
         }
         solution.add(0, currentNode);
+
+        return solution;
+    }
+
+    public static void printSolution(ArrayList<Node> solution) {
         System.out.println("Initial board: ");
         solution.get(0).getBoard().printBoard();
         System.out.println();
@@ -69,7 +79,5 @@ public class Solver {
                 System.out.print(" -> ");
             }
         }
-
-
     }
 }
