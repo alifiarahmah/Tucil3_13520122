@@ -1,12 +1,12 @@
-import java.io.File;  // Import the File class
-import java.io.FileNotFoundException;  // Import this class to handle errors
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /* Class FifteenPuzzle */
 
 public class PuzzleBoard {
     // Deklarasi atribut
-    private String[][] board;
+    private final String[][] board;
     private int emptyRowLoc, emptyColLoc;
 
     // Konstruktor kosong (assign nomor secara random)
@@ -58,18 +58,13 @@ public class PuzzleBoard {
     public PuzzleBoard(PuzzleBoard other) {
         this.board = new String[4][4];
         for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                this.board[i][j] = other.board[i][j];
-            }
+            System.arraycopy(other.board[i], 0, this.board[i], 0, 4);
         }
         this.emptyRowLoc = other.emptyRowLoc;
         this.emptyColLoc = other.emptyColLoc;
     }
 
     // Getter
-    public String[][] getBoard() {
-        return this.board;
-    }
     public String getValueString(int row, int col) {
         return this.board[row][col];
     }
@@ -86,10 +81,6 @@ public class PuzzleBoard {
         return this.emptyColLoc;
     }
 
-    // Setter
-    public void setBoard(String[][] board) {
-        this.board = board;
-    }
     public void setValue(int row, int col, String value) {
         this.board[row][col] = value;
     }
@@ -102,39 +93,6 @@ public class PuzzleBoard {
         this.emptyColLoc = col;
     }
 
-    // Memindahkan kotak kosong ("-")
-    public void moveUp() {
-        // Memindahkan kotak kosong ("-") 1 kotak ke atas
-        if (this.getEmptyRowIdx() > 0) {
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx(), this.getValueString(this.getEmptyRowIdx() - 1, this.getEmptyColIdx()));
-            this.setValue(this.getEmptyRowIdx() - 1, this.getEmptyColIdx(), "-");
-            this.setEmptyRowLoc(this.getEmptyRowIdx() - 1);
-        }
-    }
-    public void moveDown() {
-        // Memindahkan kotak kosong ("-") 1 kotak ke bawah
-        if (this.getEmptyRowIdx() < 3) {
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx(), this.getValueString(this.getEmptyRowIdx() + 1, this.getEmptyColIdx()));
-            this.setValue(this.getEmptyRowIdx() + 1, this.getEmptyColIdx(), "-");
-            this.setEmptyRowLoc(this.getEmptyRowIdx() + 1);
-        }
-    }
-    public void moveLeft() {
-        // Memindahkan kotak kosong ("-") 1 kotak ke kiri
-        if (this.getEmptyColIdx() > 0) {
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx(), this.getValueString(this.getEmptyRowIdx(), this.getEmptyColIdx() - 1));
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx() - 1, "-");
-            this.setEmptyColLoc(this.getEmptyColIdx() - 1);
-        }
-    }
-    public void moveRight() {
-        // Memindahkan kotak kosong ("-") 1 kotak ke kanan
-        if (this.getEmptyColIdx() < 3) {
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx(), this.getValueString(this.getEmptyRowIdx(), this.getEmptyColIdx() + 1));
-            this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx() + 1, "-");
-            this.setEmptyColLoc(this.getEmptyColIdx() + 1);
-        }
-    }
     // Mengembalikan board dengan posisi kotak kosong ("-") pada posisi baru
     public PuzzleBoard movedUp() {
         PuzzleBoard newBoard = new PuzzleBoard(this);
@@ -180,20 +138,6 @@ public class PuzzleBoard {
                 System.out.print(this.board[i][j] + "\t");
             }
             System.out.println();
-        }
-    }
-    public void printBoardStyled() {
-        System.out.println("+--+--+--+--+");
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (this.board[i][j].length() == 1) {
-                    System.out.print("| " + this.board[i][j]);
-                } else {
-                    System.out.print("|" + this.board[i][j]);
-                }
-            }
-            System.out.println("|");
-            System.out.println("+--+--+--+--+");
         }
     }
 
