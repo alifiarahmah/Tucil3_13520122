@@ -54,6 +54,17 @@ public class PuzzleBoard {
             System.out.println("File not found.");
         }
     }
+    // Konstruktor dari Puzzleboard lain (cctor ig)
+    public PuzzleBoard(PuzzleBoard other) {
+        this.board = new String[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                this.board[i][j] = other.board[i][j];
+            }
+        }
+        this.emptyRowLoc = other.emptyRowLoc;
+        this.emptyColLoc = other.emptyColLoc;
+    }
 
     // Getter
     public String[][] getBoard() {
@@ -68,16 +79,6 @@ public class PuzzleBoard {
         }
         return Integer.parseInt(this.board[row][col]);
     }
-    public int[] getValueIdx(int value){
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                if (board[i][j].equals(value)) {
-                    return new int[]{i, j};
-                }
-            }
-        }
-        return new int[]{-1, -1};
-    } // getValueIdx(value) -> [row, col]
     public int getEmptyRowIdx() {
         return this.emptyRowLoc;
     }
@@ -133,6 +134,43 @@ public class PuzzleBoard {
             this.setValue(this.getEmptyRowIdx(), this.getEmptyColIdx() + 1, "-");
             this.setEmptyColLoc(this.getEmptyColIdx() + 1);
         }
+    }
+    // Mengembalikan board dengan posisi kotak kosong ("-") pada posisi baru
+    public PuzzleBoard movedUp() {
+        PuzzleBoard newBoard = new PuzzleBoard(this);
+        if (newBoard.getEmptyRowIdx() > 0) {
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx(), newBoard.getValueString(newBoard.getEmptyRowIdx() - 1, newBoard.getEmptyColIdx()));
+            newBoard.setValue(newBoard.getEmptyRowIdx() - 1, newBoard.getEmptyColIdx(), "-");
+            newBoard.setEmptyRowLoc(newBoard.getEmptyRowIdx() - 1);
+        }
+        return newBoard;
+    }
+    public PuzzleBoard movedDown() {
+        PuzzleBoard newBoard = new PuzzleBoard(this);
+        if (newBoard.getEmptyRowIdx() < 3) {
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx(), newBoard.getValueString(newBoard.getEmptyRowIdx() + 1, newBoard.getEmptyColIdx()));
+            newBoard.setValue(newBoard.getEmptyRowIdx() + 1, newBoard.getEmptyColIdx(), "-");
+            newBoard.setEmptyRowLoc(newBoard.getEmptyRowIdx() + 1);
+        }
+        return newBoard;
+    }
+    public PuzzleBoard movedLeft() {
+        PuzzleBoard newBoard = new PuzzleBoard(this);
+        if (newBoard.getEmptyColIdx() > 0) {
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx(), newBoard.getValueString(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx() - 1));
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx() - 1, "-");
+            newBoard.setEmptyColLoc(newBoard.getEmptyColIdx() - 1);
+        }
+        return newBoard;
+    }
+    public PuzzleBoard movedRight() {
+        PuzzleBoard newBoard = new PuzzleBoard(this);
+        if (newBoard.getEmptyColIdx() < 3) {
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx(), newBoard.getValueString(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx() + 1));
+            newBoard.setValue(newBoard.getEmptyRowIdx(), newBoard.getEmptyColIdx() + 1, "-");
+            newBoard.setEmptyColLoc(newBoard.getEmptyColIdx() + 1);
+        }
+        return newBoard;
     }
 
     // Method untuk mencetak board sebagai matriks, dipisah oleh tab ("\t")
@@ -192,8 +230,7 @@ public class PuzzleBoard {
     }
     public int Kurang(int row, int col){
         // Fungsi antara
-        // KURANG(i) = banyaknya ubin bernomor j
-        // sedemikian sehingga j < i dan POSISI(j) > POSISI(i).
+        // KURANG(i) = banyaknya ubin bernomor j sedemikian sehingga j < i dan POSISI(j) > POSISI(i).
         // POSISI(i) = posisi ubin bernomor i pada susunan yang diperiksa.
         int counter = 0;
         // Cek sebelah kanan board[row][col]
@@ -214,6 +251,16 @@ public class PuzzleBoard {
         }
 
         return counter;
+    }
+    public int Kurang(int value){
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if (this.getValue(i, j) == value){
+                    return Kurang(i, j);
+                }
+            }
+        }
+        return 0;
     }
 
     // Fungsi mencari jumalh kotak yang tidak sesuai tempatnya

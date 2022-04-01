@@ -24,26 +24,29 @@ public class Main {
 
         // Cetak board
         board.printBoard();
-        // Cetak Kurang(i)
+
+        // Cetak Kurang(i), x, dan isSolvable
         System.out.println("\nNilai Kurang(i)");
-        for(int i = 1; i < 16; i++) {
-            int[] loc = board.getValueIdx(i);
-            System.out.printf("%d %d\n", loc[0], loc[1]);
-            // System.out.printf("Kurang(%d): %d\n", i, board.Kurang(loc[0], loc[1]));
+        for(int i = 1; i < 16; i+=2) {
+            System.out.print("Kurang(" + i + ") = " + board.Kurang(i));
+            System.out.println("\tKurang(" + (i+1) + ") = " + board.Kurang(i+1));
         }
+        System.out.println("x = " + board.x());
         // Cetak total isSolvable
-        System.out.printf("\nΣKurang + x = %d\n", board.SigmaKurang() + board.x());
+        System.out.printf("ΣKurang + x = %d\n", board.SigmaKurang() + board.x());
+
+        System.out.println();
 
         // Solve puzzle
-        long startTime = System.currentTimeMillis();
         if (board.isSolvable()) {
+            long startTime = System.currentTimeMillis();
             System.out.println("Puzzle Solvable.");
             board.solve();
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
+            System.out.println("Time Spent: " + duration + "ms");
         } else {
             System.out.println("Puzzle not solvable.");
         }
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        System.out.println("Time Spent: " + duration + "ms");
     }
 }
