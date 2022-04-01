@@ -39,12 +39,9 @@ public class Main {
 
         // Solve puzzle
         if (board.isSolvable()) {
-            long startTime = System.currentTimeMillis();
+
             System.out.println("Puzzle Solvable.\n");
             board.solve();
-            long endTime = System.currentTimeMillis();
-            long duration = endTime - startTime;
-            System.out.println("Time Spent: " + duration + "ms");
         } else {
             System.out.println("Puzzle not solvable.");
         }
