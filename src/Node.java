@@ -1,7 +1,6 @@
 enum Move { LEFT, RIGHT, UP, DOWN }
 
 class Node {
-    private static int idCounter = 1;
     private final PuzzleBoard board;
     private final int cost;
     private final int depth;
