@@ -10,9 +10,15 @@ public class Main {
         System.out.println("[1] Generate random puzzle");
         System.out.println("[2] Import puzzle from /test directory");
         System.out.print("> ");
+
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         PuzzleBoard board;
+        while(!input.equals("1") && !input.equals("2")) {
+            System.out.println("Invalid input.");
+            System.out.print("> ");
+            input = scanner.nextLine();
+        }
         if (input.equals("1")) {
             // Generate random puzzle
             board = new PuzzleBoard();
@@ -34,14 +40,10 @@ public class Main {
                 System.out.println("\tKurang(" + (i+1) + ") = " + board.Kurang(i+1));
             }
             System.out.println("x = " + board.x());
-            // Cetak total isSolvable
-            System.out.printf("ΣKurang + x = %d", board.SigmaKurang() + board.x());
-
-            System.out.println();
+            System.out.printf("ΣKurang + x = %d\n", board.SigmaKurang() + board.x());
 
             // Solve puzzle
             if (board.isSolvable()) {
-
                 System.out.println("Puzzle Solvable.\n");
                 board.solve();
             } else {

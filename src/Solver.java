@@ -14,20 +14,25 @@ public class Solver {
 
     public static void solve(PuzzleBoard initialBoard) {
         ArrayList<Node> solution = getSolution(initialBoard);
-        printSolution(solution);
+        if (solution.size() > 0) {
+            printSolution(solution);
+        }
     }
 
     public static ArrayList<Node> getSolution(PuzzleBoard initialBoard) {
-        PriorityQueue<Node> aliveNode = new PriorityQueue<>(new NodeComparator());
-        Node currentNode;
+        PriorityQueue<Node> aliveNode = new PriorityQueue<>(new NodeComparator()); // Queue semua hasil pembangkian
+        ArrayList<Node> solution = new ArrayList<>();
+        Node currentNode; // Node yang sedang dibangkitkan
 
         // Initialize root node with initial board
         currentNode = new Node(initialBoard);
 
+        // Mulai timer
         long startTime = System.currentTimeMillis();
 
-        // Selagi currentNode belum mencapai goal state
-        while (!Objects.requireNonNull(currentNode).getBoard().isSolved()) {
+        // Selagi currentNode belum mencapai goal state dan belum sampai 5 menit
+        while (!Objects.requireNonNull(currentNode).getBoard().isSolved()
+                && System.currentTimeMillis() - startTime < 300000) {
             // Ambil node yang sudah di expand, dan masukkan ke dalam queue
             if (currentNode.getBoard().getEmptyRowIdx() > 0) {
                 aliveNode.add(new Node(currentNode.getBoard().movedUp(), Move.UP, currentNode));
@@ -43,23 +48,28 @@ public class Solver {
             }
             currentNode = aliveNode.poll();
         }
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
 
-        // Sudah selesai
-        System.out.println("Solved!");
-        System.out.println("Total moves: " + currentNode.getDepth());
-        System.out.println("Total expanded nodes: " + aliveNode.size());
-        System.out.println("Time spent: " + duration + " ms\n");
+        if (Objects.requireNonNull(currentNode).getBoard().isSolved()) {
+            // Hitung durasi
+            long endTime = System.currentTimeMillis();
+            long duration = endTime - startTime;
 
-        // Print solution
-        ArrayList<Node> solution = new ArrayList<>();
-        while (currentNode.getParent() != null) {
+            // Output selesai
+            System.out.println("Solved!");
+            System.out.println("Total moves: " + currentNode.getDepth());
+            System.out.println("Total expanded nodes: " + aliveNode.size());
+            System.out.println("Time spent: " + duration + " ms\n");
+
+            // Masukkan langkah solusi terurut ke dalam array solusi
+            while (currentNode.getParent() != null) {
+                solution.add(0, currentNode);
+                currentNode = currentNode.getParent();
+            }
             solution.add(0, currentNode);
-            currentNode = currentNode.getParent();
-        }
-        solution.add(0, currentNode);
 
+        } else {
+            System.out.println("Puzzle solving has taken a very long time. Stop.");
+        }
         return solution;
     }
 

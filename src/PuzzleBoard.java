@@ -2,8 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-/* Class FifteenPuzzle */
-
 public class PuzzleBoard {
     // Deklarasi atribut
     private String[][] board;
@@ -109,6 +107,7 @@ public class PuzzleBoard {
         return this.emptyColLoc;
     }
 
+    // Setter
     public void setValue(int row, int col, String value) {
         this.board[row][col] = value;
     }
@@ -235,7 +234,7 @@ public class PuzzleBoard {
         return 0;
     }
 
-    // Fungsi mencari jumalh kotak yang tidak sesuai tempatnya
+    // Method untuk mencari jumlah kotak yang tidak sesuai tempatnya
     public int countNotInPlace() {
         int counter = 0;
         for(int i = 0; i < 4; i++){
@@ -260,6 +259,7 @@ public class PuzzleBoard {
         return true;
     }
 
+    // Memanggil solve() dari class Solver
     public void solve() {
         Solver.solve(this);
     }
