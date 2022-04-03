@@ -35,13 +35,15 @@ Java SE Development Kit (JDK) 17.0.1 / OpenJDK JDK 17.0.2.
 ## Struktur Folder
 
 ```
-Tucil3_13520122
+.
 ├── README.md
 ├── bin
 │   └── Tucil3_13520122.jar
 ├── doc
 │   └── Tucil3_13520122.pdf
 ├── src
+│   ├── META-INF
+│   │   └── MANIFEST.MF
 │   ├── Main.java
 │   ├── Node.java
 │   ├── PuzzleBoard.java
@@ -58,7 +60,7 @@ Tucil3_13520122
 
 `doc`: folder untuk menyimpan laporan program
 
-`src`: folder untuk menyimpan source code program
+`src`: folder untuk menyimpan source code program dan manifest
 
 `test`: folder untuk menyimpan file teks instansiasi persoalan
 
