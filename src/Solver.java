@@ -30,9 +30,9 @@ public class Solver {
         // Mulai timer
         long startTime = System.currentTimeMillis();
 
-        // Selagi currentNode belum mencapai goal state dan belum sampai 5 menit
+        // Selagi currentNode belum mencapai goal state dan belum sampai 5 detik
         while (!Objects.requireNonNull(currentNode).getBoard().isSolved()
-                && System.currentTimeMillis() - startTime < 300000) {
+                && System.currentTimeMillis() - startTime < 5000) {
             // Ambil node yang sudah di expand, dan masukkan ke dalam queue
             if (currentNode.getBoard().getEmptyRowIdx() > 0) {
                 aliveNode.add(new Node(currentNode.getBoard().movedUp(), Move.UP, currentNode));
@@ -68,7 +68,7 @@ public class Solver {
             solution.add(0, currentNode);
 
         } else {
-            System.out.println("Puzzle solving has taken a very long time. Stop.");
+            System.out.println("Puzzle solving has taken a very long time (>5 s). Stop.");
         }
         return solution;
     }
