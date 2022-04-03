@@ -2,16 +2,11 @@ enum Move { LEFT, RIGHT, UP, DOWN }
 
 class Node {
     private static int idCounter = 1;
-    private final int id;
     private final PuzzleBoard board;
     private final int cost;
     private final int depth;
     private final Move moveFromParent;
     private final Node parent;
-    private final Node nextUp;
-    private final Node nextDown;
-    private final Node nextLeft;
-    private final Node nextRight;
 
     // Konstruktor
     public Node(PuzzleBoard board) {
@@ -21,11 +16,6 @@ class Node {
         this.depth = 0;
         this.moveFromParent = null;
         this.parent = null;
-        this.nextUp = null;
-        this.nextDown = null;
-        this.nextLeft = null;
-        this.nextRight = null;
-        this.id = idCounter++;
     }
     public Node(PuzzleBoard board, Move moveFromParent, Node parent) {
         this.board = board;
@@ -37,11 +27,6 @@ class Node {
         this.depth = parent.getDepth() + 1;
         this.moveFromParent = moveFromParent;
         this.parent = parent;
-        this.nextUp = null;
-        this.nextDown = null;
-        this.nextLeft = null;
-        this.nextRight = null;
-        this.id = idCounter++;
     }
 
     // Getter
