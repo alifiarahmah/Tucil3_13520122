@@ -6,7 +6,7 @@ import java.util.*;
 
 public class PuzzleBoard {
     // Deklarasi atribut
-    private final String[][] board;
+    private String[][] board;
     private int emptyRowLoc, emptyColLoc;
 
     // Konstruktor kosong (assign nomor secara random)
@@ -31,7 +31,12 @@ public class PuzzleBoard {
     // Konstructor dari File
     public PuzzleBoard(String filename) {
         this.board = new String[4][4];
-        String filepath = "test/" + filename;
+        String path = new File("").getAbsolutePath();
+        if(path.endsWith("bin")) {
+            path = path.substring(0, path.length() - 4);
+        }
+        String filepath = path + "/test/" + filename;
+        System.out.print("Reading from " + filepath + "...\n");
         // Membaca file
         try {
             File file = new File(filepath);
@@ -54,7 +59,30 @@ public class PuzzleBoard {
             System.out.println("File not found.");
         }
     }
-    // Konstruktor dari Puzzleboard lain (cctor ig)
+    public PuzzleBoard(File file) {
+        try {
+
+            this.board = new String[4][4];
+            Scanner input = new Scanner(file);
+            int i = 0;
+            while (input.hasNextLine()) {
+                String line = input.nextLine();
+                String[] tokens = line.split(" ");
+                for (int j = 0; j < 4; j++) {
+                    this.board[i][j] = tokens[j];
+                    if (tokens[j].equals("-")) { // Inisialisasi posisi kotak kosong
+                        this.emptyRowLoc = i;
+                        this.emptyColLoc = j;
+                    }
+                }
+                i++;
+            }
+            input.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+    }
+    // Konstruktor dari Puzzleboard lain
     public PuzzleBoard(PuzzleBoard other) {
         this.board = new String[4][4];
         for (int i = 0; i < 4; i++) {

@@ -79,5 +79,6 @@ public class Solver {
                 System.out.print(" -> ");
             }
         }
+        System.out.println();
     }
 }

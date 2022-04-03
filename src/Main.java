@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.Scanner;
 
 public class Main {
@@ -17,33 +18,35 @@ public class Main {
             board = new PuzzleBoard();
         } else {
             // Import puzzle
-            System.out.print("Enter file name (with extension): ");
+            System.out.print("Enter file name (in /test folder, with file extension): ");
             input = scanner.nextLine();
             board = new PuzzleBoard(input);
         }
 
-        // Cetak board
-        board.printBoard();
+        if(board.getValueString(0,0) != null){
+            // Cetak board
+            board.printBoard();
 
-        // Cetak Kurang(i), x, dan isSolvable
-        System.out.println("\nNilai Kurang(i)");
-        for(int i = 1; i < 16; i+=2) {
-            System.out.print("Kurang(" + i + ") = " + board.Kurang(i));
-            System.out.println("\tKurang(" + (i+1) + ") = " + board.Kurang(i+1));
-        }
-        System.out.println("x = " + board.x());
-        // Cetak total isSolvable
-        System.out.printf("ΣKurang + x = %d", board.SigmaKurang() + board.x());
+            // Cetak Kurang(i), x, dan isSolvable
+            System.out.println("\nNilai Kurang(i)");
+            for(int i = 1; i < 16; i+=2) {
+                System.out.print("Kurang(" + i + ") = " + board.Kurang(i));
+                System.out.println("\tKurang(" + (i+1) + ") = " + board.Kurang(i+1));
+            }
+            System.out.println("x = " + board.x());
+            // Cetak total isSolvable
+            System.out.printf("ΣKurang + x = %d", board.SigmaKurang() + board.x());
 
-        System.out.println();
+            System.out.println();
 
-        // Solve puzzle
-        if (board.isSolvable()) {
+            // Solve puzzle
+            if (board.isSolvable()) {
 
-            System.out.println("Puzzle Solvable.\n");
-            board.solve();
-        } else {
-            System.out.println("Puzzle not solvable.");
+                System.out.println("Puzzle Solvable.\n");
+                board.solve();
+            } else {
+                System.out.println("Puzzle not solvable.");
+            }
         }
     }
 }
