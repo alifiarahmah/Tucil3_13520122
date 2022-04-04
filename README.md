@@ -88,5 +88,7 @@ Menggunakan IDE (IntelliJ IDEA):
 
 Menjalankan binary dari folder `/bin`
 ```shell
+git clone https://github.com/alifiarahmah/Tucil3_13520122
+cd Tucil3_13520122
 java -jar bin/Tucil3_13520122.jar
 ```
